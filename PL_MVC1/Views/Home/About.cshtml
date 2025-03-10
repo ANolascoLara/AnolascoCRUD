@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gatito sobre un Corazón</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+
+        .container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Corazón */
+        .heart {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            background-color: red;
+            transform: rotate(-45deg);
+        }
+
+            .heart::before,
+            .heart::after {
+                content: "";
+                position: absolute;
+                width: 150px;
+                height: 150px;
+                background-color: red;
+                border-radius: 50%;
+            }
+
+            .heart::before {
+                top: -75px;
+                left: 0;
+            }
+
+            .heart::after {
+                left: 75px;
+                top: 0;
+            }
+
+        /* Gatito */
+        .cat {
+            position: absolute;
+            top: -130px;
+            width: 100px;
+            height: 80px;
+            background-color: gray;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Orejas */
+        .ear {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: deeppink;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+
+            .ear.left {
+                top: -15px;
+                left: 10px;
+            }
+
+            .ear.right {
+                top: -15px;
+                right: 10px;
+            }
+
+        /* Ojos */
+        .eye {
+            position: absolute;
+            width: 12px;
+            height: 15px;
+            background-color: white;
+            border-radius: 50%;
+            top: 30px;
+        }
+
+            .eye.left {
+                left: 25px;
+            }
+
+            .eye.right {
+                right: 25px;
+            }
+
+            .eye::before {
+                content: "";
+                position: absolute;
+                width: 6px;
+                height: 10px;
+                background-color: black;
+                border-radius: 50%;
+                top: 3px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+        /* Nariz */
+        .nose {
+            position: absolute;
+            width: 12px;
+            height: 8px;
+            background-color: pink;
+            border-radius: 50%;
+            top: 50px;
+        }
+
+        /* Bigotes */
+        .whiskers {
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            background-color: black;
+            top: 55px;
+        }
+
+            .whiskers.left {
+                left: -35px;
+            }
+
+            .whiskers.right {
+                right: -35px;
+            }
+
+            .whiskers::before,
+            .whiskers::after {
+                content: "";
+                position: absolute;
+                width: 40px;
+                height: 2px;
+                background-color: black;
+            }
+
+            .whiskers::before {
+                top: -6px;
+            }
+
+            .whiskers::after {
+                top: 6px;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="cat">
+            <div class="ear left"></div>
+            <div class="ear right"></div>
+            <div class="eye left"><div class="pupil"></div></div>
+            <div class="eye right"><div class="pupil"></div></div>
+            <div class="nose"></div>
+            <div class="whiskers left"></div>
+            <div class="whiskers right"></div>
+        </div>
+        <div class="heart"></div>
+    </div>
+</body>
+</html>
+
+
