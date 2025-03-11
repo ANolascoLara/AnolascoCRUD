@@ -67,6 +67,8 @@ namespace PL_MVC1.Controllers
 
             return View(usuario);
         }
+
+
         [HttpGet]
         public ActionResult Form(int? IdUsuario)
         {
@@ -138,6 +140,8 @@ namespace PL_MVC1.Controllers
             return RedirectToAction("GetAll");
 
         }
+
+
         [HttpGet]
         public ActionResult Delete(int IdUsuario)
         {
