@@ -3,6 +3,7 @@ using ML;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 
 namespace BL
@@ -945,6 +946,61 @@ namespace BL
             }
             return result;
         }
+    
+    public static ML.Result CargaMasiva()
+        {
+            ML.Result result = new ML.Result();
+            Console.WriteLine("Entrando a carga masiva");
+            string ruta = @"";
+            try
+            {
+                StreamReader streamReader = new StreamReader(ruta);
+                string fila = "";
+
+                streamReader.ReadLine();
+
+                while ((fila = streamReader.ReadLine()) != null)
+                {
+                    string[] valores = fila.Split('|');
+                    ML.Usuario usuario = new ML.Usuario();
+                    usuario.UserName = valores[0];
+                    usuario.Nombre = valores[1];
+                    usuario.ApellidoPaterno = valores[2];
+                    usuario.ApellidoMaterno = valores[3];
+			        usuario.Email = valores[3];
+                    usuario.Password = valores[3];
+                    usuario.FechaNacimiento = valores[3];
+                    usuario.Sexo = valores[3];
+                    usuario.Telefono = valores[3];
+                    usuario.Celular = valores[3];
+                    usuario.Estatus = Convert.ToBoolean(valores[3]);
+                    usuario.Curp = valores[3];
+                    usuario.Rol.IdRol = Convert.ToInt32(valores[3]);
+                    usuario.Rol.Nombre = valores[3];
+                    usuario.Direccion.Calle = valores[3];
+                    usuario.Direccion.NumeroInterior = valores[3];
+                    usuario.Direccion.NumeroExterior = valores[3];
+                    usuario.Direccion.Colonia.Nombre = valores[3];
+                    usuario.Direccion.Colonia.CodigoPostal = valores[3];
+                    usuario.Direccion.Colonia.Municipio.Nombre = valores[3];
+                    usuario.Direccion.Colonia.Municipio.Estado.Nombre  = valores[3];
+
+                    BL.Usuario.AddEF(usuario);
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+
+        }
+
+
+
     }
 }
 

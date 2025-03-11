@@ -11,18 +11,18 @@
 <link rel="stylesheet" href="~/Content/UsuarioStyle/style.css">
 <h2 class="text-center fw-bold text-primary">Registrar</h2>
 
-@using (Html.BeginForm("SubmitAction","Form", "Usuario", FormMethod.Post, new { @enctype = "multipart/form-data", @onsubmit="validarFormulario(event)"}))
+@using (Html.BeginForm("Form", "Usuario", FormMethod.Post, new { id = "myForm", @enctype = "multipart/form-data", }))
 
 
 {
     @Html.HiddenFor(model => model.IdUsuario)
     @Html.HiddenFor(model => model.Imagen)
+    
+        <div class="container">
 
-    <div class="container">
 
 
 
-       
             <div class="row mb-4">
                 <div class="col-3">
                     @Html.LabelFor(model => model.UserName)
@@ -30,17 +30,17 @@
                 </div>
                 <div class="col-3">
                     @Html.LabelFor(model => model.Nombre)
-                    @Html.TextBoxFor(model => model.Nombre, new { @class = " validable form-control text-primary ", @onkeypress = "SoloLetras(event)", @onblur= "LimpiarBorde(event)" ,Style = "background:#87CEEB;" })
+                    @Html.TextBoxFor(model => model.Nombre, new { @class = " validar form-control text-primary ", @onkeypress = "SoloLetras(event)", @onblur = "LimpiarBorde(event)", Style = "background:#87CEEB;" })
                     <span class="error"></span>
                 </div>
                 <div class="col-3">
                     @Html.LabelFor(model => model.ApellidoPaterno)
-                    @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "validable form-control text-primary", @onkeypress = "SoloLetras(event)", @onblur = "LimpiarBorde(event)",Style = "background:#87CEEB;" })
+                    @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = " validar form-control text-primary", @onkeypress = "SoloLetras(event)", @onblur = "LimpiarBorde(event)", Style = "background:#87CEEB;" })
                     <span class="error"></span>
                 </div>
                 <div class="col-3">
                     @Html.LabelFor(model => model.ApellidoMaterno)
-                    @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = " validable form-control text-primary", @onkeypress = "SoloLetras(event)", @onblur = "LimpiarBorde(event)", Style = "background:#87CEEB;" })
+                    @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = " validar form-control text-primary", @onkeypress = "SoloLetras(event)", @onblur = "LimpiarBorde(event)", Style = "background:#87CEEB;" })
                     <span class="error"></span>
                 </div>
             </div>
@@ -50,15 +50,16 @@
             <div class="row">
                 <div class="col-3">
                     @Html.LabelFor(model => model.Email)
-                    @Html.TextBoxFor(model => model.Email, new { @class = " validable form-control text-primary", @onblur = "validarCorreo(event)", Style = "background:#87CEEB", type = "email", placeholder = "example@mail.ru" })
+                    @Html.TextBoxFor(model => model.Email, new { @class = " validar form-control text-primary", @onblur = "validarCorreo(event)", Style = "background:#87CEEB", type = "email", placeholder = "example@mail.ru" })
                     <span class="error"></span>
                 </div>
                 <div class="col-3">
                     @Html.LabelFor(model => model.Password)
-                    @Html.PasswordFor(model => model.Password, new { @id = "password", @class = " validable form-control text-primary", @onblur = "validarContrasena(event)", Style = "background:#87CEEB;" })
+                    @Html.PasswordFor(model => model.Password, new { @id = "password", @class = " validar form-control text-primary", @onblur = "validarContrasena(event)", Style = "background:#87CEEB;" })
                     <span class="error"></span>
                     <br />
-                    @Html.PasswordFor(model => model.Password, new { @id = "confirmPassword", @class = "form-control text-primary", @onblur = "confirmarContrasena(event) LimpiarBorde(event)", placeholder = "Confirmar Contraseña", Style = "background:#87CEEB;" })
+                    <label>Confirmar contraseña </label>
+                    <input name="Confirmpassword" id="confirmPassword" , class=" validar form-control text-primary" onblur="comparar(event)" placeholder="Confirmar Contraseña" Style="background:#87CEEB;" />
                     <span class="error"></span>
                 </div>
                 <div class="col-3">
@@ -68,7 +69,7 @@
                 </div>
                 <div class="col-3">
                     @Html.LabelFor(model => model.Curp)
-                    @Html.TextBoxFor(model => model.Curp, new { @class = "form-control text-primary", @onblur = "validarCURP(event)", Style = "background:#87CEEB;" })
+                    @Html.TextBoxFor(model => model.Curp, new { @class = " validar form-control text-primary", @onblur = "validarCURP(event)", Style = "background:#87CEEB;" })
                     <span class="error"></span>
                 </div>
 
@@ -91,12 +92,12 @@
                 </div>
                 <div class="col-4">
                     @Html.LabelFor(model => model.Telefono)
-                    @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control text-primary", @onkeypress = "SoloNumeros(event)", @onblur = "LimpiarBorde(event)", Style = "background:#87CEEB;" })
+                    @Html.TextBoxFor(model => model.Telefono, new { @class = " validar form-control text-primary", @onkeypress = "SoloNumeros(event)", @onblur = "LimpiarBorde(event)", Style = "background:#87CEEB;" })
                     <span class="error"></span>
                 </div>
                 <div class="col-4">
                     @Html.LabelFor(model => model.Celular)
-                    @Html.TextBoxFor(model => model.Celular, new { @class = "form-control text-primary", @onkeypress = "SoloNumeros(event)", @onblur = "LimpiarBorde(event)",  Style = "background:#87CEEB;" })
+                    @Html.TextBoxFor(model => model.Celular, new { @class = " validar form-control text-primary", @onkeypress = "SoloNumeros(event)", @onblur = "LimpiarBorde(event)", Style = "background:#87CEEB;" })
                     <span class="error"></span>
                 </div>
             </div>
@@ -126,7 +127,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Direccion.NumeroExterior, "NúmeroExterior", new { @class = "control-label col-md-2 " })
                             <div class="col-md-10">
-                                @Html.TextBoxFor(model => model.Direccion.NumeroExterior, new { @class = " validable form-control text-primary", @onkeypress = "SoloNumeros(event)", @onblur = "LimpiarBorde(event)", placeholder = "Ej. 123", Style = "background:#87CEEB;" })
+                                @Html.TextBoxFor(model => model.Direccion.NumeroExterior, new { @class = " validar form-control text-primary", @onkeypress = "SoloNumeros(event)", @onblur = "LimpiarBorde(event)", placeholder = "Ej. 123", Style = "background:#87CEEB;" })
                                 @Html.ValidationMessageFor(model => model.Direccion.NumeroExterior, "", new { @class = "text-danger" })
                                 <span class="error"></span>
                             </div>
@@ -138,7 +139,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Direccion.NumeroInterior, "NúmeroInterior", new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.TextBoxFor(model => model.Direccion.NumeroInterior, new { @class = "validable form-control text-primary", @onkeypress = "SoloNumeros(event)", @onblur = "LimpiarBorde(event)",  placeholder = "Ej. 4A ", Style = "background:#87CEEB;" })
+                                @Html.TextBoxFor(model => model.Direccion.NumeroInterior, new { @class = "validar form-control text-primary", @onkeypress = "SoloNumeros(event)", @onblur = "LimpiarBorde(event)", placeholder = "Ej. 4A ", Style = "background:#87CEEB;" })
                                 @Html.ValidationMessageFor(model => model.Direccion.NumeroInterior, "", new { @class = "text-danger" })
                                 <span class="error"></span>
                             </div>
@@ -200,16 +201,16 @@
                 <h2></h2>
 
                 <div class="d-grid gap-2 d-md-block">
-                    <button type="submit" id="submitButton"class="btn btn-outline-light">Enviar</button>
+                    <button type="submit" id="submitButton" class="btn btn-outline-light">Enviar</button>
                     <a href="@Url.Action("GetAll", "Usuario")" class="btn btn-outline-info">Regresar</a>
                 </div>
             </div>
-       
     </div>
 
 
 
-   
+
+
 }
 @Scripts.Render("~/bundles/jquery")
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
@@ -218,47 +219,50 @@
 <script>
 
 
-    //function ValidarForm() {    //    var isValid = true;    //    $('form').find('input, select, textarea').each(function () {    //        var $field = $(this);    //        if ($field.attr('required') && $field.val().trim() === '') {    //            $field.css('border-color', 'red');    //            $field.addClass('error-input');    //            isValid = false;    //        }    //        if ($field.hasClass('error-input')) {    //            isValid = false;    //        }    //    });    //    return isValid;    //}
-    function validarFormulario(evt) {        var form = evt.target;        var inputs = form.querySelectorAll(".validable");         var formularioValido = true;        inputs.forEach(input => {            // Si el input no tiene borde verde o está vacío, el formulario no es válido            if (input.style.borderColor !== 'green' || input.value.trim() === '') {                formularioValido = false;            }        });        if (!formularioValido) {            evt.preventDefault(); // Evita el envío del formulario            alert("Hay campos incorrectos o vacíos. Verifique antes de enviar.");        }    }
-
-    
+        function validarFormulario(event) {        console.log("Validacion iniciada");        var form = document.getElementById("myForm");        var inputs = form.querySelectorAll(".validar"); // Solo los campos con clase 'validar'        var valid = true;        // Recorremos todos los campos de entrada con la clase 'validar'        for (var i = 0; i < inputs.length; i++) {            // Si el borde de un campo no es verde o el campo está vacío, es inválido            if (inputs[i].style.borderColor !== "green" || inputs[i].value === "") {                valid = false; // Marcar como inválido                break;            }        }        // Si algún campo es inválido, se previene el envío del formulario y se muestra una alerta        if (!valid) {            event.preventDefault(); // Prevenir el envío del formulario            alert("Algún campo está incorrecto o vacío. Por favor, corríjalo.");        } else {            alert("Formulario enviado correctamente"); // Mensaje de éxito si todo es válido            // Aquí puedes proceder a enviar el formulario si es necesario            // form.submit(); // Si es necesario enviar el formulario en lugar de alertar        }    }    // Asignar el evento de clic en el botón de envío    document.getElementById("submitButton").addEventListener("click", validarFormulario);
 
     function validarContrasena(evt) {
         var inputField = evt.target;
         var ErrorMessage = inputField.parentNode.querySelector('.error');
         ErrorMessage.textContent = '';
 
-        var password = inputField.value;
-        var passwordRegex = /^(?=.*[A-Z])(?=.*[\W_]).{8}$/; // 1 mayúscula, 1 carácter especial, exactamente 8 caracteres
+        var password = inputField.value.trim(); // Se eliminan espacios innecesarios
+
+        // Expresión regular: 1 mayúscula, 1 carácter especial, exactamente 8 caracteres
+        var passwordRegex = /^(?=.*[A-Z])(?=.*[\W_]).{8}$/;
 
         if (password === '') {
-            inputField.style.borderColor = ''; // Restablecer el color normal
+            inputField.style.borderColor = ''; // Restablecer color normal
         } else if (!passwordRegex.test(password)) {
             inputField.style.borderColor = 'red';
-            ErrorMessage.textContent = 'La contraseña debe tener al menos 8 caracteres, incluyendo una letra mayuscula y un número';
+            ErrorMessage.textContent = 'La contraseña debe tener exactamente 8 caracteres, incluir una letra mayúscula y un carácter especial.';
         } else {
             inputField.style.borderColor = 'green';
         }
     }
 
-    function confirmarContrasena(evt) {
-        var confirmField = evt.target;
-        var passwordField = document.getElementById('password'); 
-        var ErrorMessage = confirmField.parentNode.querySelector('.error');
-        ErrorMessage.textContent = '';
+    function comparar(evt) {
+        var password1 = document.getElementById('password').value.trim();
+        var password2 = document.getElementById('confirmPassword').value.trim();
+        var inputField = evt.target;
+        var ErrorMessage = inputField.parentNode.querySelector('.error');
 
-        
-        if (confirmPassword.value !== passwordField.value) {
-            evt.preventDefault();
-            confirmField.style.borderColor = 'red';
-            ErrorMessage.textContent = 'Las contraseñas no coinciden';
-        }
-        else
-        {
-            confirmField.style.borderColor = 'green'; 
+        ErrorMessage.textContent = ''; // Limpiar mensajes previos
+
+        if (password1 === '' || password2 === '') {
+            inputField.style.borderColor = ''; // Restablecer color si está vacío
+            ErrorMessage.textContent = '';
+        } else if (password1 !== password2) {
+            inputField.style.borderColor = 'red';
+            ErrorMessage.textContent = 'Las contraseñas no coinciden.';
+        } else {
+            inputField.style.borderColor = 'green';
         }
     }
-    
+
+
+
+
 
 
     function validarCURP(evt) {
@@ -278,7 +282,7 @@
             inputField.style.borderColor = 'green';
         }
     }
-   
+
 function validarCorreo(evt) {
     var inputField = evt.target;
     var ErrorMessage = inputField.parentNode.querySelector('.error');
@@ -288,7 +292,7 @@ function validarCorreo(evt) {
     var emailRegex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
 
     if (email === '') {
-        inputField.style.borderColor = ''; 
+        inputField.style.borderColor = '';
     } else if (!emailRegex.test(email)) {
         inputField.style.borderColor = 'red';
         ErrorMessage.textContent = 'Ingrese un correo válido';
@@ -314,7 +318,7 @@ function validarCorreo(evt) {
         inputField.style.borderColor = 'green';
     }
 }
-    
+
     function SoloLetras(evt) {
         var entrada = String.fromCharCode(evt.which)
         var inputField = evt.target;
@@ -330,13 +334,13 @@ function validarCorreo(evt) {
             console.log("Si es una letra")
             inputField.style.borderColor = 'green';
         }
-        
+
 
     }
 
     function LimpiarBorde(evt) {
         var inputField = evt.target;
-        if (inputField.value.trim() === '' || inputField.value) {
+        if (inputField.value.trim() === '' ) {
             inputField.style.borderColor = '';
             var ErrorMessage = inputField.parentNode.querySelector('.error')
             ErrorMessage.textContent = '';
