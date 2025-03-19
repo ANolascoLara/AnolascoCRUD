@@ -162,6 +162,8 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
+    <Content Include="Scripts\FormJS\FormJavaScript.js" />
+    <Content Include="Scripts\FormJS\GetAllJavaScript.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
     <Content Include="Scripts\jquery-3.7.0.slim.js" />
@@ -188,9 +190,12 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Usuario\GetAll.cshtml" />
     <Content Include="Views\Usuario\Form.cshtml" />
+    <Content Include="Views\Usuario\_Model.cshtml" />
+    <Content Include="Views\Usuario\_Mensajes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="CargaMasiva\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
