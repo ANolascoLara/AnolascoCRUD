@@ -137,7 +137,7 @@ namespace DL_EF
                 new ObjectParameter("UserName", userName) :
                 new ObjectParameter("UserName", typeof(string));
     
-            var nombreParameter = nombre != null ?
+           var nombreParameter = nombre != null ?
                 new ObjectParameter("Nombre", nombre) :
                 new ObjectParameter("Nombre", typeof(string));
     
@@ -149,7 +149,7 @@ namespace DL_EF
                 new ObjectParameter("ApellidoMaterno", apellidoMaterno) :
                 new ObjectParameter("ApellidoMaterno", typeof(string));
     
-            var emailParameter = email != null ?
+           var emailParameter = email != null ?
                 new ObjectParameter("Email", email) :
                 new ObjectParameter("Email", typeof(string));
     

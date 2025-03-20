@@ -16,9 +16,10 @@ namespace PL
             //Usuario.UpdateSQL();
             //Usuario.GetAll();
             //Usuario.GetById();
-            Usuario.Add();
+            //Usuario.Add();
             //Usuario.Delete();
             //Usuario.Update();
+            Usuario.CargaMasiva();
         }
     }
     

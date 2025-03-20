@@ -3,6 +3,8 @@ using ML;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.OleDb;
+using System.IO;
 using System.Linq;
 
 namespace BL
@@ -480,16 +482,16 @@ namespace BL
 
         //}
 
-        public static ML.Result AddEF (ML.Usuario usuario)
-       {
-            ML.Result result = new ML.Result ();
+        public static ML.Result AddEF(ML.Usuario usuario)
+        {
+            ML.Result result = new ML.Result();
             try
             {
                 using (DL_EF.ANolascoProgramacionNCapasEntities context = new DL_EF.ANolascoProgramacionNCapasEntities())
                 {
                     int rowsAffect = context.UsuarioAdd(usuario.UserName, usuario.Nombre, usuario.ApellidoPaterno,
-                        usuario.ApellidoMaterno, usuario.Email, usuario.Password, Convert.ToDateTime(usuario.FechaNacimiento),usuario.Sexo, usuario.Telefono,
-                        usuario.Celular, usuario.Estatus, usuario.Curp, usuario.Imagen,usuario.Rol.IdRol, usuario.Direccion.Calle, usuario.Direccion.NumeroInterior,
+                        usuario.ApellidoMaterno, usuario.Email, usuario.Password, Convert.ToDateTime(usuario.FechaNacimiento), usuario.Sexo, usuario.Telefono,
+                        usuario.Celular, usuario.Estatus, usuario.Curp, usuario.Imagen, usuario.Rol.IdRol, usuario.Direccion.Calle, usuario.Direccion.NumeroInterior,
                         usuario.Direccion.NumeroExterior, usuario.Direccion.Colonia.IdColonia);
                     if (rowsAffect > 0)
                     {
@@ -503,11 +505,12 @@ namespace BL
                     }
                 }
             }
-            catch (Exception ex) {
-                    
-                 result.Correct = false;
-                 result.ErrorMessage = ex.Message;
-                 result.Ex = ex;
+            catch (Exception ex)
+            {
+
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
             }
 
 
@@ -560,7 +563,7 @@ namespace BL
                     if (rowsAffect > 0)
                     {
                         result.Correct = true;
-                        
+
 
                     }
                     else
@@ -600,9 +603,9 @@ namespace BL
                             ML.Usuario usuario = new ML.Usuario();
                             usuario.Rol = new ML.Rol();
                             usuario.Direccion = new ML.Direccion();
-                            usuario.Direccion.Colonia=new ML.Colonia();
-                            usuario.Direccion.Colonia.Municipio=new ML.Municipio();
-                            usuario.Direccion.Colonia.Municipio.Estado=new ML.Estado();
+                            usuario.Direccion.Colonia = new ML.Colonia();
+                            usuario.Direccion.Colonia.Municipio = new ML.Municipio();
+                            usuario.Direccion.Colonia.Municipio.Estado = new ML.Estado();
 
                             usuario.IdUsuario = objBD.IdUsuario;
                             usuario.UserName = objBD.UserName;
@@ -618,11 +621,11 @@ namespace BL
                             usuario.Imagen = objBD.Imagen;
                             usuario.Rol.Nombre = objBD.NombreRol;
                             usuario.Estatus = Convert.ToBoolean(objBD.Estatus);
-                            usuario.Direccion.Calle= objBD.Calle;
-                            usuario.Direccion.NumeroInterior= objBD.NumeroInterior;
-                            usuario.Direccion.NumeroExterior= objBD.NumeroExterior;
-                            usuario.Direccion.Colonia.Nombre= objBD.NumeroExterior;
-                            usuario.Direccion.Colonia.CodigoPostal= objBD.CodigoPostal;
+                            usuario.Direccion.Calle = objBD.Calle;
+                            usuario.Direccion.NumeroInterior = objBD.NumeroInterior;
+                            usuario.Direccion.NumeroExterior = objBD.NumeroExterior;
+                            usuario.Direccion.Colonia.Nombre = objBD.NumeroExterior;
+                            usuario.Direccion.Colonia.CodigoPostal = objBD.CodigoPostal;
                             usuario.Direccion.Colonia.Municipio.Nombre = objBD.NombreMunicipio;
                             usuario.Direccion.Colonia.Municipio.Estado.Nombre = objBD.NombreEstado;
 
@@ -689,6 +692,7 @@ namespace BL
 
                         usuario.IdUsuario = query.IdUsuario;
                         usuario.UserName = query.UserName;
+                        usuario.Nombre = query.NombreUsuario;
                         usuario.ApellidoPaterno = query.ApellidoPaterno;
                         usuario.ApellidoMaterno = query.ApellidoMaterno;
                         usuario.Email = query.Email;
@@ -702,8 +706,8 @@ namespace BL
                         usuario.Direccion.NumeroExterior = query.NumeroExterior;
                         usuario.Direccion.NumeroInterior = query.NumeroInterior;
                         usuario.Direccion.Colonia.IdColonia = query.IdColonia != null ? query.IdColonia.Value : 0;
-                        usuario.Direccion.Colonia.Municipio.IdMunicipio= query.IdMunicipio != null ? query.IdMunicipio.Value : 0;
-                        usuario.Direccion.Colonia.Municipio.Estado.IdEstado = query.IdEstado!= null ? query.IdEstado.Value : 0;
+                        usuario.Direccion.Colonia.Municipio.IdMunicipio = query.IdMunicipio != null ? query.IdMunicipio.Value : 0;
+                        usuario.Direccion.Colonia.Municipio.Estado.IdEstado = query.IdEstado != null ? query.IdEstado.Value : 0;
                         if (query.Estatus != true)
                         {
                             usuario.Estatus = true;
@@ -713,7 +717,7 @@ namespace BL
                             usuario.Estatus = false;
                         }
                         usuario.Curp = query.CURP;
-                        
+
 
                         if (query.IdRol != null)
                         {
@@ -724,8 +728,8 @@ namespace BL
                             usuario.Rol.IdRol = 0;
                         }
 
-                        result.Object =usuario;
-                        
+                        result.Object = usuario;
+
                         result.Correct = true;
 
                     }
@@ -761,7 +765,7 @@ namespace BL
             {
                 using (DL_EF.ANolascoProgramacionNCapasEntities context = new DL_EF.ANolascoProgramacionNCapasEntities())
                 {
-                    
+
                     DL_EF.Usuario usuarioBD = new DL_EF.Usuario();
                     usuarioBD.UserName = usuario.UserName;
                     usuarioBD.Nombre = usuario.Nombre;
@@ -778,7 +782,7 @@ namespace BL
                     usuarioBD.IdRol = usuario.Rol.IdRol;
 
                     context.Usuarios.Add(usuarioBD);
-                   
+
 
                     int filasAfectadas = context.SaveChanges();
                     if (filasAfectadas > 0)
@@ -802,7 +806,7 @@ namespace BL
             return result;
         }
 
-        public static ML.Result DeleteLINQ ( int IdUsuario )
+        public static ML.Result DeleteLINQ(int IdUsuario)
         {
             ML.Result result = new ML.Result();
 
@@ -812,38 +816,40 @@ namespace BL
                 {
 
                     var soloDelete = (from usuariolinq in context.Usuarios
-                                where usuariolinq.IdUsuario == IdUsuario
-                                select usuariolinq).SingleOrDefault();
+                                      where usuariolinq.IdUsuario == IdUsuario
+                                      select usuariolinq).SingleOrDefault();
 
-                    var buscar = (from usuario in  context.Usuarios
-                                where usuario.IdUsuario == IdUsuario
-                                select new
-                                { IdUsuario = usuario.IdUsuario,
-                                  UserName = usuario.UserName,
-                                  Nombre = usuario.Nombre,
-                                  ApellidoPaterno = usuario.ApellidoPaterno,
-                                  ApellidoMaterno = usuario.ApellidoMaterno, 
-                                  Email = usuario.Email,
-                                  Password = usuario.Password,
-                                  FechaNacimiento = usuario.FechaNacimiento,
-                                  Sexo = usuario.Sexo,
-                                  Telefono = usuario.Telefono,
-                                  Celular = usuario.Celular,
-                                  Estatus = usuario.Estatus,
-                                  Curp = usuario.Curp,
-                                  IdRol = usuario.IdRol
-                                }).SingleOrDefault();
+                    var buscar = (from usuario in context.Usuarios
+                                  where usuario.IdUsuario == IdUsuario
+                                  select new
+                                  {
+                                      IdUsuario = usuario.IdUsuario,
+                                      UserName = usuario.UserName,
+                                      Nombre = usuario.Nombre,
+                                      ApellidoPaterno = usuario.ApellidoPaterno,
+                                      ApellidoMaterno = usuario.ApellidoMaterno,
+                                      Email = usuario.Email,
+                                      Password = usuario.Password,
+                                      FechaNacimiento = usuario.FechaNacimiento,
+                                      Sexo = usuario.Sexo,
+                                      Telefono = usuario.Telefono,
+                                      Celular = usuario.Celular,
+                                      Estatus = usuario.Estatus,
+                                      Curp = usuario.Curp,
+                                      IdRol = usuario.IdRol
+                                  }).SingleOrDefault();
                     if (soloDelete != null)
                     {
                         context.Usuarios.Remove(soloDelete);
 
                         int filasafectadas = context.SaveChanges();
-                        if(filasafectadas > 0)
+                        if (filasafectadas > 0)
                         {
                             result.Correct = true;
 
-                        
-                        }else
+
+                        }
+                        else
                         {
                             result.Correct = false;
                             result.ErrorMessage = "No se pudo eliminar";
@@ -863,7 +869,7 @@ namespace BL
 
         }
 
-        public static ML.Result UpdateLINQ( ML.Usuario usuario)
+        public static ML.Result UpdateLINQ(ML.Usuario usuario)
         {
             ML.Result result = new ML.Result();
 
@@ -903,50 +909,283 @@ namespace BL
                             result.ErrorMessage = "No se pudo ";
 
                         }
-                             
+
 
 
                     }
-            }   }
-                catch (Exception ex)
-                {
-                    result.Correct = false;
-                    result.ErrorMessage = ex.Message;
-                    result.Ex = ex;
                 }
-                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
         }
-    
 
-    public static ML.Result CambioEstatus( int IdUsuario, bool Estatus)
+
+        public static ML.Result CambioEstatus(int IdUsuario, bool Estatus)
         {
             ML.Result result = new ML.Result();
             try
             {
-                using(DL_EF.ANolascoProgramacionNCapasEntities context = new DL_EF.ANolascoProgramacionNCapasEntities())
+                using (DL_EF.ANolascoProgramacionNCapasEntities context = new DL_EF.ANolascoProgramacionNCapasEntities())
                 {
                     int rowsAffect = context.CambioEstatus(IdUsuario, Estatus);
-                    if (rowsAffect > 0) {
+                    if (rowsAffect > 0)
+                    {
                         result.Correct = true;
 
                     }
-                    else {
+                    else
+                    {
                         result.Correct = false;
                     }
 
                 }
 
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 result.Correct = false;
-                result.ErrorMessage= ex.Message;
+                result.ErrorMessage = ex.Message;
                 result.Ex = ex;
             }
             return result;
         }
+
+
+        public static ML.Result LeerExcel(string cadenaConexion)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (OleDbConnection context = new OleDbConnection(cadenaConexion))
+                {
+
+                    string query = "Select * from [Hoja1$]";
+                    using (OleDbCommand cmd = new OleDbCommand())
+                    {
+                        cmd.CommandText = query;
+                        cmd.Connection = context;
+                        OleDbDataAdapter adapter = new OleDbDataAdapter(); 
+                        adapter.SelectCommand = cmd;
+                        DataTable tablaUsuario = new DataTable();
+                        adapter.Fill(tablaUsuario);
+                        if (tablaUsuario.Rows.Count > 0)
+                        {
+                            result.Objects = new List<object>(); 
+                            foreach (DataRow row in tablaUsuario.Rows)
+                            {
+                                ML.Usuario usuario = new ML.Usuario();
+                                usuario.Rol = new ML.Rol();
+                                usuario.Direccion = new ML.Direccion();
+                                usuario.Direccion.Colonia = new ML.Colonia();
+
+
+                                usuario.UserName = row[0].ToString();
+                                usuario.Nombre = row[1].ToString();
+                                usuario.ApellidoPaterno = row[2].ToString();
+                                usuario.ApellidoMaterno = row[3].ToString();
+                                usuario.Email = row[4].ToString();
+                                usuario.Password= row[5].ToString();
+                                usuario.FechaNacimiento= row[6].ToString();
+                                usuario.Sexo= row[7].ToString();
+                                usuario.Telefono= row[8].ToString();
+                                usuario.Celular= row[9].ToString();
+                                usuario.Estatus= Convert.ToBoolean(row[10]);
+                                usuario.Curp = row[11].ToString();
+                                usuario.Imagen = null;
+                                
+                                usuario.Rol.IdRol= Convert.ToUInt16(row[12]);
+                                usuario.Direccion.Calle= row[13].ToString();
+                                usuario.Direccion.NumeroInterior= row[14].ToString();
+                                usuario.Direccion.NumeroExterior= row[15].ToString();
+                                usuario.Direccion.Colonia.IdColonia = Convert.ToUInt16(row[16]);
+                                
+
+                                result.Objects.Add(usuario);
+
+                            }
+
+                            result.Correct = true;
+                        }
+                
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+        }
+
+        public static ML.ResultExcel ValidarExcel(List<object> registros)
+        {
+            ML.ResultExcel result = new ML.ResultExcel();
+            result.Errores = new List<object>();
+
+            int contador = 1;
+
+            foreach (ML.Usuario usuario in registros) {
+                ML.ResultExcel errorRegistro = new ML.ResultExcel();
+
+                errorRegistro.NumeroRegistro = contador;
+
+                    if (usuario.UserName.Length > 50 || usuario.UserName == "" || usuario.UserName ==null) {
+
+
+                        errorRegistro.ErrorMessage += "La columna UserName contiene un valor muy extenso o se encuentra vacia";
+
+
+                    }
+                    if (usuario.Nombre.Length > 50 || usuario.Nombre == "" || usuario.Nombre == null)
+                    {
+
+
+                            errorRegistro.ErrorMessage += "La columna Nombre contiene un valor muy extenso o se encuentra vacia";
+
+
+                    }
+                    if (usuario.ApellidoPaterno.Length > 50 || usuario.ApellidoPaterno == "" || usuario.ApellidoPaterno == null)
+                    {
+
+
+                        errorRegistro.ErrorMessage += "La columna  Apellido Paterno contiene un valor muy extenso o se encuentra vacia";
+
+
+                    }
+                    if (usuario.ApellidoMaterno.Length > 50 || usuario.ApellidoMaterno == "" || usuario.ApellidoMaterno == null)
+                    {
+
+                        
+                        errorRegistro.ErrorMessage += "La columna Apellido Materno contiene un valor muy extenso o se encuentra vacia";
+
+
+                    }
+                    if (usuario.Email.Length > 50 || usuario.Email == "" || usuario.Email == null)
+                    {
+
+
+                        errorRegistro.ErrorMessage += "La columna Email contiene un valor muy extenso o se encuentra vacia";
+
+
+                    }
+                    if (usuario.Password.Length != 8 || usuario.Password == "" || usuario.Password == null)
+                    {
+
+
+                        errorRegistro.ErrorMessage += "La columna Password contiene un valor muy extenso o se encuentra vacia";
+
+
+                    }
+                    if ( usuario.FechaNacimiento == "" || usuario.FechaNacimiento == null)
+                    {
+
+
+                        errorRegistro.ErrorMessage += "La columna Fecha de Nacimiento se encuentra vacia ";
+
+
+                    }
+                    if (usuario.Sexo == "" || usuario.Sexo== null)
+                    {
+
+
+                        errorRegistro.ErrorMessage += "La columna Sexo se encuentra vacia";
+
+
+                    }
+                    if (usuario.Telefono.Length != 10 || usuario.Telefono == "" || usuario.Telefono == null)
+                    {
+
+
+                        errorRegistro.ErrorMessage += "La columna Telefono contiene un valor muy extenso o se encuentra vacia";
+
+
+                    }
+                    if (usuario.Celular.Length != 10 || usuario.Celular == "" || usuario.Celular == null)
+                    {
+
+
+                        errorRegistro.ErrorMessage += "La columna Celular contiene un valor muy extenso o se encuentra vacia";
+
+
+                    }
+                    //if ( usuario.Estatus != true || usuario.Estatus != false)
+                    //{
+
+
+                    //    result.ErrorMessage += "El Estatus esta vacio";
+
+
+                    //}
+                
+                    if (usuario.Curp.Length != 18 || usuario.Curp == "" || usuario.Curp == null)
+                    {
+
+
+                        errorRegistro.ErrorMessage += "La columna Curp contiene un valor muy extenso o se encuentra vacia";
+
+
+                    }
+                    if ( usuario.Rol.IdRol == 0)
+                    {
+
+
+                        errorRegistro.ErrorMessage += "La columna Rol se encuentra vacia";
+
+
+                    }
+                    if (usuario.Direccion.Calle.Length == 50 || usuario.Direccion.Calle == "" || usuario.Direccion.Calle == null)
+                    {
+
+
+                        errorRegistro.ErrorMessage += "La columna Calle contiene un valor muy extenso o se encuentra vacia";
+
+
+                    }
+                    if ( usuario.Direccion.NumeroInterior == "" || usuario.Direccion.NumeroInterior == null)
+                    {
+
+                        
+                        errorRegistro.ErrorMessage += "La columna NumeroInterior se encuentra vacia";
+
+
+                    }
+                    if (usuario.Direccion.NumeroExterior == "" || usuario.Direccion.NumeroExterior == null)
+                    {
+
+
+                        errorRegistro.ErrorMessage += "La columna NumeroExterior se encuentra vacia";
+
+
+                    }
+                    if (usuario.Direccion.Colonia.IdColonia == 0)
+                    {
+
+
+                        errorRegistro.ErrorMessage += "La columna Colonia se encuentra vacia";
+
+
+                    }
+                    if( errorRegistro.ErrorMessage != null)
+                    {
+                        result.Errores.Add(errorRegistro);
+                    }
+
+                    contador++;
+            }
+
+            return result;
+        }
     }
 }
+
+    
 
 //    public static ML.Result GetAllLINQ(ML.Usuario usuario)
 //        {

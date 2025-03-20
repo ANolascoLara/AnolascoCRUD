@@ -2,56 +2,102 @@
 @{
     ViewBag.Title = "GetAll";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var errores = ViewBag.Errores;
+    //ML.Usuario usuario = new ML.Usuario();
 }
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
+@Scripts.Render("~/bundles/jquery")
+<script src="~/Scripts/jquery-3.7.0.js"></script>
+<script>
+    var CambioEstatus = "@Url.Action("CambioEstatus", "Usuario")"
+</script>
+<script src="~/Scripts/FormJS/GetAllJavaScript.js"></script>
 @*condicion Usuarios*@
 
-@using (Html.BeginForm("GetAll", "Usuario", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@*@Html.Partial("~/Views/Usuario/_Model.cshtml", usuario)k*@
+@*@using (Html.BeginForm("CargaMasiva", "Usuario", FormMethod.Post, new { @enctype = "multipart/form-data" }))*@
 
+@*{<details>
 
-{
-
-
-<details>
-    <div class="container mt-3">
-        <div class="row d-flex align-items-end">
-
+            <input type="file" name="Excel" />
+            <button type="submit" class=" btn btn-outline-secondary">Enviar</button>
+        </details>
+    }*@
+<div class="container">
+    @using (Html.BeginForm("GetAll", "Usuario", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    {
+        <details>
             <sumary> Busqueda Abierta</sumary>
-            <div class="col-md-3">
-                @Html.LabelFor(model => model.Nombre, new { @class = "fw-bold" })
-                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control text-primary", style = "background:#87CEEB;" })
+            <div class="container mt-3">
+                <div class="row d-flex align-items-end">
+
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.Nombre, new { @class = "fw-bold" })
+                        @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control text-primary", style = "background:#87CEEB;" })
+                    </div>
+
+
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.ApellidoPaterno, new { @class = "fw-bold" })
+                        @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control text-primary", style = "background:#87CEEB;" })
+                    </div>
+
+
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.ApellidoMaterno, new { @class = "fw-bold" })
+                        @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control text-primary", style = "background:#87CEEB;" })
+                    </div>
+
+
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.Rol.IdRol, new { @class = "fw-bold" })
+                        @Html.DropDownListFor(model => model.Rol.IdRol, new SelectList(Model.Rol.Roles, "IdRol", "Nombre"), "Selecciona una opción",
+                            new { @class = "form-select", style = "background:#87CEEB;" })
+                    </div>
+
+
+                    <div class="col-md-1 text-center">
+                        <button type="submit" class=" btn btn-outline-secondary">Buscar</button>
+                    </div>
+
+                </div>
             </div>
+        </details>
+
+    }
+</div>
+
+<div class="container">
+    @using (Html.BeginForm("CargaMasiva", "Usuario", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    {
+        <details>
+            <input type="file" name="Excel" />
+
+            <!-- Cambiar el texto del botón dependiendo del estado -->
+            @if (Session["RutaExcel"] != null)
+            {
+                <button type="submit" class="btn btn-outline-secondary">Insertar</button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-outline-secondary">Validar y Leer</button>
+            }
+        </details>
+    }
+
+    <!-- Mostrar mensaje de éxito o error -->
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+    }
+    @if (ViewBag.EsExito != null && ViewBag.EsExito == true)
+    {
+        <div class="alert alert-success">Operación realizada con éxito</div>
+    }
+</div>
+<break></break>
 
 
-            <div class="col-md-3">
-                @Html.LabelFor(model => model.ApellidoPaterno, new { @class = "fw-bold" })
-                @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control text-primary", style = "background:#87CEEB;" })
-            </div>
-
-
-            <div class="col-md-3">
-                @Html.LabelFor(model => model.ApellidoMaterno, new { @class = "fw-bold" })
-                @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control text-primary", style = "background:#87CEEB;" })
-            </div>
-
-
-            <div class="col-md-2">
-                @Html.LabelFor(model => model.Rol.IdRol, new { @class = "fw-bold" })
-                @Html.DropDownListFor(model => model.Rol.IdRol, new SelectList(Model.Rol.Roles, "IdRol", "Nombre"), "Selecciona una opción",
-                    new { @class = "form-select", style = "background:#87CEEB;" })
-            </div>
-
-
-            <div class="col-md-1 text-center">
-                <button type="submit" class=" btn btn-outline-secondary">Buscar</button>
-            </div>
-
-        </div>
-    </div>
-</details>
-
-}
 @if (Model.Usuarios.Count > 0)
 {
 
@@ -192,31 +238,32 @@ else
 }
 @Scripts.Render("~/bundles/jquery")
 <script src="~/Scripts/jquery-3.7.0.js"></script>
-<script>
-    function CambioEstatus(IdUsuario, input) {
 
-        let estatus = input.checked
-        $.ajax({
-            url: "@Url.Action("CambioEstatus", "Usuario")",
-            data: { IdUsuario: IdUusario, Estatus: estatus },
-            type: "POST",
-            dataType: "json",
-            sucess: function (result) {
-                if (result.Correct) {
 
-                } else {
-                    alert("Hubo un error")
+@*function CambioEstatus(IdUsuario, input) {
+
+            let estatus = input.checked
+            $.ajax({
+                url: CambioEstatus,
+                data: { IdUsuario: IdUusario, Estatus: estatus },
+                type: "POST",
+                dataType: "json",
+                sucess: function (result) {
+                    if (result.Correct) {
+
+                    } else {
+                        alert("Hubo un error")
+                    }
+                },
+                error: function (xhr) {
+
+                    console.log(xhr)
                 }
-            },
-            error: function (xhr) {
-
-                console.log(xhr)
             }
+
+            )
+
         }
-
-        )
-
-    }
-</script>
+    </script>*@
 
 
