@@ -29,6 +29,7 @@ namespace ML
         public bool Estatus { get; set; }
         public string Curp { get; set; }
         public byte [] Imagen { get; set; }
+        public byte ImagenBase64 { get; set; }
         public ML.Rol Rol { get; set; }
         public ML.Direccion Direccion  { get; set; }
         public List<object> Direccions { get; set; }

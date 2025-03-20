@@ -357,9 +357,9 @@ function validarCorreo(evt) {
             type: "GET",
             dataType: "json",
             success: function (result) {
-                    if (result.Correct) {2
+                    if (result.Correct) {
 
-                        let ddlMunicipio = $(`#ddlMunicipio`);
+                      let ddlMunicipio = $(`#ddlMunicipio`);
                         $.each(result.Objects, function (i, valor) {
                             let option = `<option value= ${valor.IdMunicipio}>${valor.Nombre}</option>`;
                             ddlMunicipio.append(option)

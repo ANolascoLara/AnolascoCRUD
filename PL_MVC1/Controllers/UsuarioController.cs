@@ -184,6 +184,11 @@ namespace PL_MVC1.Controllers
             return data;
 
         }
+        //[HttpGet]
+        //public JsonResult GetAll()
+        //{
+        //    return View();
+        //}
     }
 
 }
