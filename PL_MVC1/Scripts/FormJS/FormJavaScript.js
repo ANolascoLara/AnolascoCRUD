@@ -83,6 +83,115 @@ function validarCorreo(evt) {
     var inputField = evt.target;
     var ErrorMessage = inputField.parentNode.querySelector('.error');
     ErrorMessage.textContent = '';
+    
+        
+
+    if (!(/^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/.test(email))) {
+        inputField.style.borderColor = 'red';
+        ErrorMessage.textContent = 'Ingrese un correo válido';
+    } else {
+        inputField.style.borderColor = 'green';
+    }
+
+
+}
+
+
+function SoloNumeros(evt) {
+    var entrada = String.fromCharCode(evt.which);
+    var inputField = evt.target;
+    var ErrorMessage = inputField.parentNode.querySelector('.error');
+
+    ErrorMessage.textContent = '';
+    if (!/[0-9]/.test(entrada)) {
+        evt.preventDefault();
+        inputField.style.borderColor = 'red';
+        ErrorMessage.textContent = 'Solo se aceptan números';
+    }
+    else {
+        console.log("Si es un Número");
+        inputField.style.borderColor = 'green';
+    }
+}
+
+function SoloLetras(evt) {
+    var entrada = String.fromCharCode(evt.which)
+    var inputField = evt.target;
+    var ErrorMessage = inputField.parentNode.querySelector('.error')
+    ErrorMessage.textContent = '';
+
+    if (!(/[a-z A-Z]/.test(entrada))) {
+        evt.preventDefault()
+        inputField.style.borderColor = 'red';
+        ErrorMessage.textContent = 'Solo se aceptan letras';
+    }
+    else {
+        console.log("Si es una letra")
+        inputField.style.borderColor = 'green';
+    }
+
+
+}
+
+function validarContrasena(evt) {
+    var inputField = evt.target;
+    var ErrorMessage = inputField.parentNode.querySelector('.error');
+    ErrorMessage.textContent = '';
+
+    var password = inputField.value;
+    var passwordRegex = /^(?=.*[A-Z])(?=.*[\W_]).{8}$/; // 1 mayúscula, 1 carácter especial, exactamente 8 caracteres
+
+    if (password === '') {
+        inputField.style.borderColor = ''; // Restablecer el color normal
+    } else if (!passwordRegex.test(password)) {
+        inputField.style.borderColor = 'red';
+        ErrorMessage.textContent = 'La contraseña debe tener al menos 8 caracteres, incluyendo una letra mayuscula y un número';
+    } else {
+        inputField.style.borderColor = 'green';
+    }
+}
+
+function confirmarContrasena(evt) {
+    var confirmField = evt.target;
+    var passwordField = document.getElementById('password');
+    var ErrorMessage = confirmField.parentNode.querySelector('.error');
+    ErrorMessage.textContent = '';
+
+
+    if (confirmPassword.value !== passwordField.value) {
+        evt.preventDefault();
+        confirmField.style.borderColor = 'red';
+        ErrorMessage.textContent = 'Las contraseñas no coinciden';
+    }
+    else {
+        confirmField.style.borderColor = 'green';
+    }
+}
+
+
+
+function validarCURP(evt) {
+    var inputField = evt.target;
+    var ErrorMessage = inputField.parentNode.querySelector('.error');
+    ErrorMessage.textContent = '';
+
+    var curp = inputField.value.toUpperCase();
+    var curpRegex = /^[A-Z]{4}\d{6}[HM][A-Z]{5}[0-9A-Z]{2}$/;
+
+    if (curp === '') {
+        inputField.style.borderColor = ''; // Restablecer el color normal
+    } else if (!curpRegex.test(curp)) {
+        inputField.style.borderColor = 'red';
+        ErrorMessage.textContent = 'Ingrese una CURP válida';
+    } else {
+        inputField.style.borderColor = 'green';
+    }
+}
+
+function validarCorreo(evt) {
+    var inputField = evt.target;
+    var ErrorMessage = inputField.parentNode.querySelector('.error');
+    ErrorMessage.textContent = '';
 
     var email = inputField.value;
     var emailRegex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
@@ -143,6 +252,7 @@ function LimpiarBorde(evt) {
 
     }
 }
+
 
 $("#Fecha").datepicker({
     dateFormat: "dd/mm/yy",

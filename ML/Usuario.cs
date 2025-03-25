@@ -65,7 +65,7 @@ namespace ML
         [DisplayName("Imagen")]
         
         public byte [] Imagen { get; set; }
-        public byte ImagenBase64 { get; set; }
+        public string ImagenBase64 { get; set; }
         public ML.Rol Rol { get; set; }
         public ML.Direccion Direccion  { get; set; }
         public List<object> Direccions { get; set; }

@@ -420,13 +420,139 @@ namespace PL_MVC1.Controllers
             return data;
 
         }
-        //[HttpGet]
-        //public JsonResult GetAll()
-        //{
-        //    return View();
-        //}
+       
+        public ActionResult CrudJS()
+        {
+            return View();
+        }
+
+        public JsonResult EstadoGetAll()
+        {
+            ML.Result JsonResult = BL.Estado.GetAll();
+            return Json(JsonResult, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult RolGetAll()
+        {
+            ML.Result JsonResult = BL.Rol.GetAll();
+            return Json(JsonResult, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public JsonResult GetAllJS()
+        {
+            
+            
+            ML.Usuario usuario = new ML.Usuario();
+            usuario.Rol = new ML.Rol();
+            usuario.Nombre = "";
+            usuario.ApellidoPaterno = "";
+            usuario.ApellidoMaterno = "";
+            usuario.Rol.IdRol = 0;
+
+            ML.Result result = BL.Usuario.GetAllEF(usuario);
+            
+            
+            JsonResult jsonResult= Json(result, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
+
+        [HttpPost]
+        public JsonResult FormJS(ML.Usuario usuario)
+        {
+                HttpPostedFileBase file = Request.Files["ImagenUsuario"];
+                if (file != null && file.ContentLength > 0)
+                {
+                    usuario.Imagen = ConvertirAArrayBytes(file);
+                }
+
+                ML.Result result;
+                if (usuario.IdUsuario == 0)  
+                {
+                    result = BL.Usuario.AddEF(usuario); // Agregar
+                }
+                else 
+                {
+                    result = BL.Usuario.UpdateEF(usuario); // Actualizar 
+                }
+
+                // Devolver un JsonResult con el resultado
+                return Json(new { Correct = result.Correct, Message = result.Correct ? "Operación exitosa" : "Error: " + result.ErrorMessage });
+    
+            
+        }
+
+        [HttpGet]
+        public JsonResult FormJS(int? IdUsuario)
+        {
+            ML.Usuario usuario = new ML.Usuario();
+            usuario.Rol = new ML.Rol();
+
+            //ML.Result resultDDL = BL.Rol.GetAll();
+
+
+            if (IdUsuario == null)
+            {
+                usuario.Rol = new ML.Rol();
+                usuario.Direccion = new ML.Direccion();
+                usuario.Direccion.Colonia = new ML.Colonia();
+                usuario.Direccion.Colonia.Municipio = new ML.Municipio();
+                usuario.Direccion.Colonia.Municipio.Estado = new ML.Estado();
+                usuario.Direccion.Colonia.Colonias = new List<object>();
+                usuario.Direccion.Colonia.Municipio.Municipios = new List<object>();
+            }
+
+            else
+            {
+                
+                ML.Result result = BL.Usuario.GetByIdEF(IdUsuario.Value);
+                usuario = (ML.Usuario)result.Object;
+                ML.Result resultMunicipio = BL.Municipio.GetByIdEstado(usuario.Direccion.Colonia.Municipio.Estado.IdEstado);
+                usuario.Direccion.Colonia.Municipio.Municipios = resultMunicipio.Objects;
+                ML.Result resultColonia = BL.Colonia.GetByIdMunicipio(usuario.Direccion.Colonia.Municipio.IdMunicipio);
+                usuario.Direccion.Colonia.Colonias = resultColonia.Objects;
+
+            }
+            ML.Result resultDDL = BL.Rol.GetAll();
+            usuario.Rol.Roles = resultDDL.Objects;
+
+            ML.Result resultEstado = BL.Estado.GetAll();
+            usuario.Direccion.Colonia.Municipio.Estado.Estados = resultEstado.Objects;
+
+            //ML.Result resultEstado = BL.Estado.GetAll();
+            return Json(new
+            {
+                Correct = true,
+                Usuario = usuario,
+                Roles = usuario.Rol.Roles,
+                Estados = usuario.Direccion.Colonia.Municipio.Estado.Estados,
+                Municipios = usuario.Direccion.Colonia.Municipio.Municipios,
+                Colonias = usuario.Direccion.Colonia.Colonias
+            },JsonRequestBehavior.AllowGet);
+        }
+
+        
+
+        
+        [HttpPost]  
+        public JsonResult DeleteJS(int IdUsuario)
+        {
+            ML.Result JsonResult = BL.Usuario.DeleteEF(IdUsuario);
+            return Json(JsonResult, JsonRequestBehavior.AllowGet);
+        }
+
+        
+
     }
 
+
+
 }
+
+
+
+
+
+
+
 
 

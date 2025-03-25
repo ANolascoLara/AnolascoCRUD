@@ -149,9 +149,10 @@
             <div class="col-4">
                 @Html.LabelFor(model => model.Telefono, new { @class = "validar" })
                 @Html.TextBoxFor(model => model.Telefono, new
-                {
-                    @class = "form-control text-primary",
-               // @onkeypress = "SoloNumeros(event)", @onblur = "LimpiarBorde(event)",
+           {
+               @class = "form-control text-primary",
+               @onkeypress = "SoloNumeros(event)",
+               @onblur = "LimpiarBorde(event)",
                Style = "background:#87CEEB;"
            })
                 <span class="error"></span>

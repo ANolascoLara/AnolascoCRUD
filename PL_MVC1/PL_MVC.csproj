@@ -194,11 +194,13 @@
     <Content Include="Views\Usuario\Form.cshtml" />
     <Content Include="Views\Usuario\_Model.cshtml" />
     <Content Include="Views\Usuario\_Mensajes.cshtml" />
+    <Content Include="Views\Usuario\CrudJS.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="CargaMasiva\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

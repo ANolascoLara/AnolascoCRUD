@@ -9,9 +9,11 @@ namespace PL_MVC1.Controllers
     public class CRUDJavaScriptController : Controller
     {
         // GET: CRUDJavaScript
-        public ActionResult Index()
+        public ActionResult CrudJS()
         {
             return View();
         }
     }
+
+
 }
