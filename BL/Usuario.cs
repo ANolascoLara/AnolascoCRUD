@@ -591,7 +591,7 @@ namespace BL
                 using (DL_EF.ANolascoProgramacionNCapasEntities context = new DL_EF.ANolascoProgramacionNCapasEntities())
                 {
                     //var query = context.UsuarioGetAll(usuarioObj.Nombre, usuarioObj.ApellidoPaterno, usuarioObj.ApellidoPaterno, usuarioObj.Rol.IdRol).ToList();
-                    var query = context.UsuarioGetAllViewSQL(usuarioObj.Nombre, usuarioObj.ApellidoPaterno, usuarioObj.ApellidoPaterno, usuarioObj.Rol.IdRol).ToList();
+                    var query = context.UsuarioGetAllViewSQL(usuarioObj.Nombre, usuarioObj.ApellidoPaterno, usuarioObj.ApellidoMaterno, usuarioObj.Rol.IdRol).ToList();
 
                     if (query.Count > 0)
                     {
@@ -618,7 +618,7 @@ namespace BL
                             usuario.Sexo = objBD.Sexo;
                             usuario.Telefono = objBD.Telefono;
                             usuario.Celular = objBD.Celular;
-                            usuario.Imagen = objBD.Imagen;
+                           // usuario.Imagen = objBD.Imagen;
                             usuario.Rol.Nombre = objBD.NombreRol;
                             usuario.Estatus = Convert.ToBoolean(objBD.Estatus);
                             usuario.Direccion.Calle = objBD.Calle;
