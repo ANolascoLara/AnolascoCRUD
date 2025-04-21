@@ -77,7 +77,7 @@
                 @Html.TextBoxFor(model => model.Email, new
            {
                @class = "form-control text-primary",
-               @onblur = "validarCorreo(event)",
+               
                Style = "background:#87CEEB",
                type = "email",
                placeholder = "example@gmail.com"
@@ -225,23 +225,20 @@
 
                 </div>
                 <div class="col-md-4">
-                    @if (Model.Direccion.Colonia.Municipio.Municipios != null || Model.Direccion.Colonia.Municipio.Municipios.Count() > 0)
+                    @if (Model.Direccion.Colonia.Municipio.Municipios != null || Model.Direccion.Colonia.Municipio.IdMunicipio > 0)
                     {
-                        @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.IdMunicipio, new SelectList(Model.Direccion.Colonia.Municipio.Municipios, "IdMunicipio",
-                       "Nombre"), "Selecciona el municipio", new { @onchange = "ColoniaGetBYIdMunicipio()", @id = "ddlMunicipio", @class = "form-select" })
-                        @Html.ValidationMessageFor(model => model.Direccion.Colonia.Municipio.IdMunicipio, "", new { @class = "text-danger" })
-
-
+                        @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.IdMunicipio, new SelectList(Model.Direccion.Colonia.Municipio.Municipios, "IdMunicipio", "Nombre"), "Selecciona un municipio", new { @onchange = "GetByIdMunicipio()", @id = "ddlMunicipio" })
                     }
                     else
                     {
 
                         @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.IdMunicipio, new SelectList(String.Empty), "Selecciona el municipio", new { @onchange = "ColoniaGetBYIdMunicipio()", @id = "ddlMunicipio", @class = "form-select" })
+
                     }
 
                 </div>
                 <div class="col-3">
-                    @if (Model.Direccion.Colonia.Colonias != null || Model.Direccion.Colonia.Colonias.Count() > 0)
+                    @if (Model.Direccion.Colonia.Colonias != null || Model.Direccion.Colonia.IdColonia > 0)
                     {
                         @Html.DropDownListFor(model => model.Direccion.Colonia.IdColonia, new SelectList(Model.Direccion.Colonia.Colonias, "IdColonia",
                           "Nombre"), "Selecciona la colonia ", new { @id = "ddlColonia", @class = "form-select" })
