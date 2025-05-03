@@ -1,0 +1,343 @@
+﻿
+@model ML.ProductoSucursal
+@{
+    ViewBag.Title = "Lista de Sucursales";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css">
+}
+
+<style>
+    body {
+        background-image: url('https://img.freepik.com/free-photo/overhead-view-dried-tea-herbs-isolated-white-backdrop_23-2148123974.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
+        backdrop-filter: blur(5px);
+        height: 100vh;
+        color: #333;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .store-header {
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .store-title {
+        color: #5cb85c;
+        font-size: 2.5em;
+        margin-bottom: 15px;
+        font-weight: bold;
+    }
+
+    .add-button {
+        margin-bottom: 20px;
+    }
+
+    .product-table {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 8px;
+        padding: 20px;
+    }
+
+    .table th {
+        background-color: #8fbc8f !important;
+        color: white !important;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .btn-warning i, .btn-danger i {
+        margin-right: 5px;
+    }
+
+    .no-records {
+        background-color: rgba(248, 215, 218, 0.8);
+        color: #721c24;
+        padding: 15px;
+        border: 1px solid #f5c6cb;
+        border-radius: 8px;
+        text-align: center;
+    }
+    .btn {
+  outline: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #40B3A2;
+  min-width: 200px;
+  border: 0;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+  box-sizing: border-box;
+  padding: 16px 20px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.btn:hover {
+  opacity: .95;
+}
+
+.btn .animation {
+  border-radius: 100%;
+  animation: ripple 0.6s linear infinite;
+}
+
+@@keyframes ripple {
+   0% {
+      box-shadow: 0 0 0 0 rgba(144, 238, 144, 0.1), 0 0 0 20px rgba(144, 238, 144, 0.1), 0 0 0 40px rgba(144, 238, 144, 0.1), 0 0 0 60px rgba(144, 238, 144, 0.1);
+   }
+
+   100% {
+      box-shadow: 0 0 0 20px rgba(144, 238, 144, 0.1), 0 0 0 40px rgba(144, 238, 144, 0.1), 0 0 0 60px rgba(144, 238, 144, 0.1), 0 0 0 80px rgba(144, 238, 144, 0);
+   }
+
+}
+    button {
+        --glow-color: rgb(217, 176, 255);
+        --glow-spread-color: rgba(191, 123, 255, 0.781);
+        --enhanced-glow-color: rgb(231, 206, 255);
+        --btn-color: rgb(100, 61, 136);
+        border: .25em solid var(--glow-color);
+        padding: 1em 3em;
+        color: var(--glow-color);
+        font-size: 15px;
+        font-weight: bold;
+        background-color: var(--btn-color);
+        border-radius: 1em;
+        outline: none;
+        box-shadow: 0 0 1em .25em var(--glow-color), 0 0 4em 1em var(--glow-spread-color), inset 0 0 .75em .25em var(--glow-color);
+        text-shadow: 0 0 .5em var(--glow-color);
+        position: relative;
+        transition: all 0.3s;
+    }
+
+        button::after {
+            pointer-events: none;
+            content: "";
+            position: absolute;
+            top: 120%;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-color: var(--glow-spread-color);
+            filter: blur(2em);
+            opacity: .7;
+            transform: perspective(1.5em) rotateX(35deg) scale(1, .6);
+        }
+
+        button:hover {
+            color: var(--btn-color);
+            background-color: var(--glow-color);
+            box-shadow: 0 0 1em .25em var(--glow-color), 0 0 4em 2em var(--glow-spread-color), inset 0 0 .75em .25em var(--glow-color);
+        }
+
+        button:active {
+            box-shadow: 0 0 0.6em .25em var(--glow-color), 0 0 2.5em 2em var(--glow-spread-color), inset 0 0 .5em .25em var(--glow-color);
+        }
+</style>
+@using (Html.BeginForm("GetAll", "Sucursal", FormMethod.Post))
+{
+    <div class="store-header">
+        <h2 class="store-title"><i class="bi bi-leaf-fill"></i> Sucursales</h2>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-3">
+            
+
+            <div>
+                @Html.DropDownListFor(model => model.Sucursal.IdSucursal, new SelectList(Model.Sucursal.Sucursals, "IdSucursal", "Nombre", Model.Sucursal.IdSucursal), "Selecciona una sucursal", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="col-md-3 align-self-end">
+            <button type="submit" class="btn btn-outline-secondary">
+                <i class="animation"></i>Buscar<i class="animation"></i>
+            </button>
+        </div>
+    </div>
+}
+
+@if (Model.ProductosSucursales.Count > 0)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="table-responsive product-table">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Imagen</th>
+                                <th scope="col">Producto</th>
+                                <th scope="col">Sucursal</th>
+                                <th scope="col">Stock</th>
+                                <th scope="col">Acciones</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (ML.ProductoSucursal productosucursal in Model.ProductosSucursales)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @if (productosucursal.Producto.Imagen == null)
+                                        {
+                                            <img id="img" src="https://static.vecteezy.com/system/resources/previews/007/627/585/non_2x/natural-organic-product-green-line-stamp-quality-fresh-natural-ingredients-outline-sticker-eco-friendly-healthy-food-label-pure-symbol-nature-certified-logo-illustration-vector.jpg" style="width:20%;" />
+                                        }
+                                        else
+                                        {
+                                            <img id="img" src="data:image/*;base64, @Convert.ToBase64String(productosucursal.Producto.Imagen)" alt="Red dot" style="width:20%;" />
+                                        }
+                                    </td>
+
+                                    <td>@productosucursal.Producto.Nombre</td>
+
+
+                                    <td>@productosucursal.Sucursal.Nombre</td>
+                                    @Html.HiddenFor(m => productosucursal.Producto.IdProducto)
+                                    @Html.HiddenFor(m => productosucursal.Sucursal.IdSucursal)
+                                    
+                                    
+                                    <td>
+                                        @Html.TextBoxFor(m => productosucursal.Stock, new { @class = "form-control stock-input", disabled = "disabled" })
+                                    </td>
+                                    <td class="text-center">
+                                        <button class="btn btn-primary guardar-btn d-none mb-3">
+                                            <i class="animation"></i>Guardar<i class="animation"></i>
+                                            <i class="bi bi-floppy-fill"></i>
+                                        </button>
+
+                                        <button class="btn btn-warning editar-btn mb-3">
+                                            <i class="animation"></i>Editar<i class="animation"></i>
+                                            <i class="bi bi-pen-fill"></i>
+                                        </button>
+
+                                        <button class="btn btn-danger cancelar-btn d-none mb-3">
+                                            <i class="animation"></i>Cancelar<i class="animation"></i>
+                                            <i class="bi bi-x-circle-fill"></i>
+                                        </button>
+
+
+
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container">
+        <div class="no-records">
+            <i class="bi bi-exclamation-triangle-fill"></i> No hay sucursales registradas.
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/jquery-3.7.0.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+
+
+<script src="~/Scripts/Producto/JavaScript.js"></script>
+<script>
+
+    $(document).ready(function () {
+        let lastInput = null;
+        let lastRow = null;
+
+        $(".editar-btn").click(function () {
+            // Desactivar cualquier otro input que estuviera habilitado
+            if (lastInput && lastRow) {
+                lastInput.prop("disabled", true);
+                lastRow.find(".guardar-btn").addClass("d-none");
+                lastRow.find(".cancelar-btn").addClass("d-none");
+                lastRow.find(".editar-btn").removeClass("d-none");
+            }
+
+            let row = $(this).closest("tr");
+            let inputStock = row.find(".stock-input");
+
+            inputStock.prop("disabled", false);
+
+            row.find(".guardar-btn").removeClass("d-none");
+            row.find(".cancelar-btn").removeClass("d-none");
+            $(this).addClass("d-none");
+
+            lastInput = inputStock;
+            lastRow = row;
+        });
+
+        $(".cancelar-btn").click(function () {
+            let row = $(this).closest("tr");
+            let inputStock = row.find(".stock-input");
+
+            inputStock.prop("disabled", true);
+            row.find(".guardar-btn").addClass("d-none");
+            row.find(".cancelar-btn").addClass("d-none");
+            row.find(".editar-btn").removeClass("d-none");
+
+            lastInput = null;
+            lastRow = null;
+        });
+
+        $(".guardar-btn").click(function () {
+            let row = $(this).closest("tr");
+            let inputStock = row.find(".stock-input");
+
+            let idProducto = row.find("input[name$='.IdProducto']").val();
+            let idSucursal = row.find("input[name$='.IdSucursal']").val();
+            let Stock = inputStock.val();
+
+            $.ajax({
+                url: "/Sucursal/ActualizarStock",
+                type: "POST",
+                data: { idProducto: idProducto, idSucursal: idSucursal, Stock: Stock },
+                success: function (response) {
+                    if (response.Correct) {
+                        alert("Se actualizo con éxito");
+                    } else {
+                        alert("Error: " + response.ErrorMessage);
+                    }
+
+                    inputStock.prop("disabled", true);
+                    row.find(".guardar-btn").addClass("d-none");
+                    row.find(".cancelar-btn").addClass("d-none");
+                    row.find(".editar-btn").removeClass("d-none");
+
+                    lastInput = null;
+                    lastRow = null;
+                },
+                error: function () {
+                    alert("Ocurrió un error al actualizar el stock.");
+                }
+            });
+        });
+    });
+
+
+</script>
+
+
+

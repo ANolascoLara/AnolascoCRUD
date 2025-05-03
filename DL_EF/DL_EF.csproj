@@ -65,11 +65,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ANolascoProgramacionNCapas.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Categoria.cs">
+      <DependentUpon>ANolascoProgramacionNCapas.tt</DependentUpon>
+    </Compile>
     <Compile Include="Class1.cs" />
     <Compile Include="Colonia.cs">
       <DependentUpon>ANolascoProgramacionNCapas.tt</DependentUpon>
     </Compile>
     <Compile Include="ColoniaGetByIdMunicipio_Result.cs">
+      <DependentUpon>ANolascoProgramacionNCapas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ComplexType1.cs">
       <DependentUpon>ANolascoProgramacionNCapas.tt</DependentUpon>
     </Compile>
     <Compile Include="Direccion.cs">
@@ -81,14 +87,38 @@
     <Compile Include="EstadoGetAll_Result.cs">
       <DependentUpon>ANolascoProgramacionNCapas.tt</DependentUpon>
     </Compile>
+    <Compile Include="GetAllProducto_Result.cs">
+      <DependentUpon>ANolascoProgramacionNCapas.tt</DependentUpon>
+    </Compile>
     <Compile Include="Municipio.cs">
       <DependentUpon>ANolascoProgramacionNCapas.tt</DependentUpon>
     </Compile>
     <Compile Include="MunicipioGetByIdEstado_Result.cs">
       <DependentUpon>ANolascoProgramacionNCapas.tt</DependentUpon>
     </Compile>
+    <Compile Include="Producto.cs">
+      <DependentUpon>ANolascoProgramacionNCapas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductoGetAll_Result.cs">
+      <DependentUpon>ANolascoProgramacionNCapas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductoGetById_Result.cs">
+      <DependentUpon>ANolascoProgramacionNCapas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductoSucursal.cs">
+      <DependentUpon>ANolascoProgramacionNCapas.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rol.cs">
+      <DependentUpon>ANolascoProgramacionNCapas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SubCategoria.cs">
+      <DependentUpon>ANolascoProgramacionNCapas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Sucursal.cs">
+      <DependentUpon>ANolascoProgramacionNCapas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SucursalGetAll_Result.cs">
       <DependentUpon>ANolascoProgramacionNCapas.tt</DependentUpon>
     </Compile>
     <Compile Include="Usuario.cs">
@@ -98,9 +128,6 @@
       <DependentUpon>ANolascoProgramacionNCapas.tt</DependentUpon>
     </Compile>
     <Compile Include="UsuarioGetAllVista.cs">
-      <DependentUpon>ANolascoProgramacionNCapas.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UsuarioGetAll_Result.cs">
       <DependentUpon>ANolascoProgramacionNCapas.tt</DependentUpon>
     </Compile>
     <Compile Include="UsuarioGetById_Result.cs">

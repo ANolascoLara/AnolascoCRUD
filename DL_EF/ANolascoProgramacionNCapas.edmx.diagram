@@ -17,6 +17,15 @@
         <AssociationConnector Association="ANolascoProgramacionNCapasModel.FK__Direccion__IdUsu__06CD04F7" />
         <AssociationConnector Association="ANolascoProgramacionNCapasModel.FK__Municipio__IdEst__08B54D69" />
         <EntityTypeShape EntityType="ANolascoProgramacionNCapasModel.UsuarioGetAllVista" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ANolascoProgramacionNCapasModel.Categoria" Width="1.5" PointX="7.375" PointY="8.375" />
+        <EntityTypeShape EntityType="ANolascoProgramacionNCapasModel.Producto" Width="1.5" PointX="11.875" PointY="8" />
+        <EntityTypeShape EntityType="ANolascoProgramacionNCapasModel.ProductoSucursal" Width="1.5" PointX="14.125" PointY="8.125" />
+        <EntityTypeShape EntityType="ANolascoProgramacionNCapasModel.SubCategoria" Width="1.5" PointX="9.625" PointY="8.25" />
+        <EntityTypeShape EntityType="ANolascoProgramacionNCapasModel.Sucursal" Width="1.5" PointX="11.875" PointY="4.25" />
+        <AssociationConnector Association="ANolascoProgramacionNCapasModel.FK__SubCatego__IdCat__2CF2ADDF" />
+        <AssociationConnector Association="ANolascoProgramacionNCapasModel.FK__Producto__IdSubC__2FCF1A8A" />
+        <AssociationConnector Association="ANolascoProgramacionNCapasModel.FK__ProductoS__IdPro__32AB8735" />
+        <AssociationConnector Association="ANolascoProgramacionNCapasModel.FK__ProductoS__IdSuc__339FAB6E" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

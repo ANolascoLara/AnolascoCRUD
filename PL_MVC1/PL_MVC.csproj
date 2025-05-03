@@ -192,6 +192,8 @@
     </Compile>
     <Compile Include="Controllers\CRUDJavaScriptController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductoController.cs" />
+    <Compile Include="Controllers\SucursalController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -227,6 +229,7 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\UsuarioStyle\style.css" />
     <Content Include="Scripts\CRUD\JavaScript.js" />
+    <Content Include="Scripts\Producto\JavaScript.js" />
     <Content Include="Views\favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -284,6 +287,10 @@
     <Content Include="Views\Usuario\_Model.cshtml" />
     <Content Include="Views\Usuario\_Mensajes.cshtml" />
     <Content Include="Views\Usuario\CrudJS.cshtml" />
+    <Content Include="Views\Producto\GetAll.cshtml" />
+    <Content Include="Views\Producto\Form.cshtml" />
+    <Content Include="Views\Producto\GetAllCards.cshtml" />
+    <Content Include="Views\Sucursal\GetAll.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

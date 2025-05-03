@@ -1,0 +1,221 @@
+﻿
+@model ML.Producto
+@{
+    ViewBag.Title = "Formulario de Producto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+}
+
+<style>
+    body {
+        background-image: url('https://as1.ftcdn.net/v2/jpg/03/19/01/92/1000_F_319019203_vpsjwajjcN7iUjBeEnxEwo64hV1pMCB7.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        color: #333;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding-top: 60px;
+    }
+
+    .form-container {
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 30px;
+        border-radius: 10px;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    .form-header {
+        color: #5cb85c;
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        color: #495057;
+    }
+
+    .form-control {
+        background-color: #f8f9fa !important;
+        border: 1px solid #ced4da;
+        color: #495057 !important;
+    }
+
+        .form-control:focus {
+            border-color: #5cb85c;
+            box-shadow: 0 0 0 0.2rem rgba(92, 184, 92, 0.25);
+        }
+
+    .text-danger {
+        font-size: 0.9em;
+    }
+
+    .btn-primary, .btn-info {
+        background-color: #5cb85c;
+        border-color: #5cb85c;
+    }
+
+        .btn-primary:hover, .btn-info:hover {
+            background-color: #4cae4c;
+            border-color: #4cae4c;
+        }
+
+    .btn-outline-info {
+        color: #5cb85c;
+        border-color: #5cb85c;
+    }
+
+        .btn-outline-info:hover {
+            background-color: #5cb85c;
+            border-color: #5cb85c;
+            color: white;
+        }
+</style>
+
+<div class="container form-container">
+    <h2 class="form-header"><i class="bi bi-leaf-fill me-2"></i> @(Model.IdProducto == 0 ? "Agregar Producto" : "Editar Producto")</h2>
+
+    @using (Html.BeginForm("Form", "Producto", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(model => model.IdProducto)
+        @Html.HiddenFor(model => model.Imagen)
+
+        <div class="mb-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nombre, new { @class = "form-label validar" })
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-tag-fill"></i></span>
+                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @onkeypress = "SoloLetras(event)" })
+                </div>
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Descripcion, new { @class = "form-label validar" })
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-file-earmark-text-fill"></i></span>
+                    @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control", rows = "3" })
+                </div>
+                @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Precio, new { @class = "form-label" })
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-currency-dollar"></i></span>
+                        @Html.TextBoxFor(model => model.Precio, new { @class = "form-control", @type = "number", step = "0.01", @onkeypress = "SoloNumeros(event)" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SubCategoria.Categoria, new { @class = "form-label" })
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-folder-fill"></i></span>
+                        @Html.DropDownListFor(model => model.SubCategoria.Categoria.IdCategoria, new SelectList(Model.SubCategoria.Categoria.Categorias, "IdCategoria", "Nombre"), "Selecciona una Categoria", new { @onchange = "cargarSubCategorias()", @id = "ddlCategoria", @class = "form-select " })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.SubCategoria.Categoria.IdCategoria, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SubCategoria, new { @class = "form-label" })
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-folder2-open-fill"></i></span>
+
+                        @if (Model.SubCategoria != null && Model.SubCategoria.SubCategorias != null && Model.SubCategoria.IdSubCategoria > 0)
+                        {
+                            @Html.DropDownListFor(model => model.SubCategoria.IdSubCategoria, new SelectList(Model.SubCategoria.SubCategorias, "IdSubCategoria", "Nombre"), "Selecciona la subcategoria ", new { @id = "ddlSubCategoria", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.SubCategoria.IdSubCategoria, "", new { @class = "text-danger" })
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(model => model.SubCategoria.IdSubCategoria, new SelectList(String.Empty), "Selecciona la subcategoria", new { @id = "ddlSubCategoria", @class = "form-control" })
+                        }
+                    </div>
+                    @Html.ValidationMessageFor(model => model.SubCategoria.IdSubCategoria, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Imagen, new { @class = "form-label" })
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-image-fill"></i></span>
+                        <input type="file" id="inptFileImagen" accept=".png, .jpg, .jpeg" name="ImagenProducto" class="form-control" onchange="visualizarImagen(this), validarImagen()"  />
+
+                    </div>
+                    <small class="form-text text-muted">Selecciona una imagen para el producto.</small>
+                </div>
+            </div>
+            <div class="col-md-6 text-center">
+                <label class="form-label">Vista previa de la imagen:</label><br />
+                @if (Model.Imagen != null)
+                {
+                    <img id="img" src="data:image/*;base64, @Convert.ToBase64String(Model.Imagen)" alt="Imagen del producto" style="max-width: 300px; max-height:300px; border: 2px solid #ccc; border-radius: 10px;" />
+                }
+                else
+                {
+                    <img id="img" src="https://static.vecteezy.com/system/resources/previews/007/627/585/non_2x/natural-organic-product-green-line-stamp-quality-fresh-natural-ingredients-outline-sticker-eco-friendly-healthy-food-label-pure-symbol-nature-certified-logo-illustration-vector.jpg" alt="Vista previa de la imagen" style="max-width: 150px; max-height: 150px; border: 1px solid #ccc; border-radius: 5px;" />
+                }
+            </div>
+        </div>
+
+        <div class="d-grid gap-2 d-md-block">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-save-fill"></i> Guardar</button>
+            <a href="@Url.Action("GetAll", "Producto")" class="btn btn-outline-info"><i class="bi bi-arrow-left-circle-fill"></i> Regresar</a>
+        </div>
+    }
+</div>
+
+<script src="~/Scripts/jquery-3.7.0.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+<script>  var ddlSubCategoriaUrl = "@Url.Action("cargarSubCategorias", "Producto")";</script>
+<script src="~/Scripts/Producto/JavaScript.js"></script>
+
+
+
+<script>
+    function visualizarImagen(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#img').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            $('#img').attr('src', 'https://static.vecteezy.com/system/resources/previews/007/627/585/non_2x/natural-organic-product-green-line-stamp-quality-fresh-natural-ingredients-outline-sticker-eco-friendly-healthy-food-label-pure-symbol-nature-certified-logo-illustration-vector.jpg');
+        }
+    }
+    function validarImagen() {
+        var input = $('#inptFileImagen')[0].files[0].name.split('.').pop().toLowerCase()
+        console.log(input)
+
+        var extensionesValidas = ['png', 'jpg', 'jpeg', 'webp']
+        var banderaImg = false;
+
+        for (var i = 0; i <= extensionesValidas.length; i++) {
+            if (input == extensionesValidas[i]) {
+                banderaImg = true
+            }
+        }
+        if (!banderaImg) {
+            alert(`Las extensiones permitidas son: ${extensionesValidas}`)
+            $('#inptFileImagen').val("");
+        }
+    }
+    
+</script>

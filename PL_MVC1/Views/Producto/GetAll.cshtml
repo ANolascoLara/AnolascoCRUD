@@ -1,0 +1,263 @@
+﻿@model ML.Producto
+@{
+    ViewBag.Title = "Lista de Productos Naturales";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css">
+}
+
+<style>
+    body {
+        background-image: url('https://img.freepik.com/fotos-premium/wooden-table-in-forest-bokeh-background_863013-42547.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
+        color: #333;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .store-header {
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .store-title {
+        color: #5cb85c;
+        font-size: 2.5em;
+        margin-bottom: 15px;
+        font-weight: bold;
+    }
+
+    .add-button {
+        margin-bottom: 20px;
+    }
+
+    .product-table {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 8px;
+        padding: 20px;
+    }
+
+    .table th {
+        background-color: #8fbc8f !important;
+        color: white !important;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .btn-warning i, .btn-danger i {
+        margin-right: 5px;
+    }
+
+    .no-records {
+        background-color: rgba(248, 215, 218, 0.8);
+        color: #721c24;
+        padding: 15px;
+        border: 1px solid #f5c6cb;
+        border-radius: 8px;
+        text-align: center;
+    }
+    button {
+        --glow-color: rgb(217, 176, 255);
+        --glow-spread-color: rgba(191, 123, 255, 0.781);
+        --enhanced-glow-color: rgb(231, 206, 255);
+        --btn-color: rgb(100, 61, 136);
+        border: .25em solid var(--glow-color);
+        padding: 1em 3em;
+        color: var(--glow-color);
+        font-size: 15px;
+        font-weight: bold;
+        background-color: var(--btn-color);
+        border-radius: 1em;
+        outline: none;
+        box-shadow: 0 0 1em .25em var(--glow-color), 0 0 4em 1em var(--glow-spread-color), inset 0 0 .75em .25em var(--glow-color);
+        text-shadow: 0 0 .5em var(--glow-color);
+        position: relative;
+        transition: all 0.3s;
+    }
+
+        button::after {
+            pointer-events: none;
+            content: "";
+            position: absolute;
+            top: 120%;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-color: var(--glow-spread-color);
+            filter: blur(2em);
+            opacity: .7;
+            transform: perspective(1.5em) rotateX(35deg) scale(1, .6);
+        }
+
+        button:hover {
+            color: var(--btn-color);
+            background-color: var(--glow-color);
+            box-shadow: 0 0 1em .25em var(--glow-color), 0 0 4em 2em var(--glow-spread-color), inset 0 0 .75em .25em var(--glow-color);
+        }
+
+        button:active {
+            box-shadow: 0 0 0.6em .25em var(--glow-color), 0 0 2.5em 2em var(--glow-spread-color), inset 0 0 .5em .25em var(--glow-color);
+        }
+    .btn {
+        outline: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #40B3A2;
+        min-width: 200px;
+        border: 0;
+        border-radius: 4px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+        box-sizing: border-box;
+        padding: 16px 20px;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+        .btn:hover {
+            opacity: .95;
+        }
+
+        .btn .animation {
+            border-radius: 100%;
+            animation: ripple 0.6s linear infinite;
+        }
+
+    @@keyframes ripple {
+        0% {
+            box-shadow: 0 0 0 0 rgba(144, 238, 144, 0.1), 0 0 0 20px rgba(144, 238, 144, 0.1), 0 0 0 40px rgba(144, 238, 144, 0.1), 0 0 0 60px rgba(144, 238, 144, 0.1);
+        }
+
+        100% {
+            box-shadow: 0 0 0 20px rgba(144, 238, 144, 0.1), 0 0 0 40px rgba(144, 238, 144, 0.1), 0 0 0 60px rgba(144, 238, 144, 0.1), 0 0 0 80px rgba(144, 238, 144, 0);
+        }
+    }
+</style>
+@using (Html.BeginForm("GetAll", "Producto", FormMethod.Post))
+{
+    <div class="store-header">
+        <h2 class="store-title"><i class="bi bi-leaf-fill"></i> Productos Naturales</h2>
+        <a href="@Url.Action("Form", "Producto")" class="btn btn-outline-success add-button">
+            <i class="bi bi-plus-circle-fill"></i> Agregar Producto
+        </a>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <div class="form-group">
+                @Html.DropDownListFor(model => model.SubCategoria.Categoria.IdCategoria, new SelectList(Model.SubCategoria.Categoria.Categorias, "IdCategoria", "Nombre"), "Selecciona una Categoria", new { @onchange = "cargarSubCategorias()", @id = "ddlCategoria", @class = "form-select " })
+                @Html.ValidationMessageFor(model => model.SubCategoria.Categoria.IdCategoria, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+
+                @if (Model.SubCategoria != null && Model.SubCategoria.SubCategorias != null && Model.SubCategoria.IdSubCategoria > 0)
+                {
+                    @Html.DropDownListFor(model => model.SubCategoria.IdSubCategoria, new SelectList(Model.SubCategoria.SubCategorias, "IdSubCategoria", "Nombre", Model.SubCategoria.IdSubCategoria), "Selecciona la subcategoria ", new { @id = "ddlSubCategoria", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SubCategoria.IdSubCategoria, "", new { @class = "text-danger" })
+                }
+                else
+                {
+                    @Html.DropDownListFor(model => model.SubCategoria.IdSubCategoria, new SelectList(String.Empty), "Selecciona la subcategoria", new { @id = "ddlSubCategoria", @class = "form-control" })
+                }
+            </div>
+        </div>
+        <div class="col-md-3 align-self-end">
+            <button type="submit" class="btn btn-outline-secondary">
+                <i class="animation"></i>Buscar<i class="animation"></i>
+            </button>
+        </div>
+    </div>
+}
+
+@if (Model.Productos.Count > 0)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="table-responsive product-table">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Acciones</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Imagen</th>
+                                <th scope="col">Subcategoría</th>
+                                <th scope="col">Categoría</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (ML.Producto producto in Model.Productos)
+                            {
+                                <tr>
+                                    <td class="text-center">
+                                        <a href="@Url.Action("Form", "Producto", new { IdProducto = producto.IdProducto })" class="btn btn-warning btn-sm">
+                                            <i class="animation"></i>Editar<i class="animation"></i>
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                    </td>
+                                    <td>@producto.Nombre</td>
+                                    <td>@producto.Descripcion</td>
+                                    <td>@producto.Precio.ToString("C")</td>
+
+                                    <td>
+                                        @if (producto.Imagen == null)
+                                        {
+                                            <img id="img" src="https://static.vecteezy.com/system/resources/previews/007/627/585/non_2x/natural-organic-product-green-line-stamp-quality-fresh-natural-ingredients-outline-sticker-eco-friendly-healthy-food-label-pure-symbol-nature-certified-logo-illustration-vector.jpg" style="width:100%;" />
+                                        }
+                                        else
+                                        {
+                                            <img id="img" src="data:image/*;base64, @Convert.ToBase64String(producto.Imagen)" alt="Red dot" style="width:100%;" />
+                                        }
+                                    </td>
+                                    <td>@producto.SubCategoria.Nombre</td>
+                                    <td>@producto.SubCategoria.Categoria.Nombre</td>
+                                    <td class="text-center">
+                                        <a href="@Url.Action("Delete", "Producto", new { IdProducto = producto.IdProducto })" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro quieres eliminar este producto?')">
+                                            <i class="bi bi-trash-fill"></i>
+                                            <i class="animation"></i>Eliminar<i class="animation"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container">
+        <div class="no-records">
+            <i class="bi bi-exclamation-triangle-fill"></i> No hay productos registrados.
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/jquery-3.7.0.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+<script>
+    var ddlSubCategoriaUrl = "@Url.Action("cargarSubCategorias", "Producto")";
+</script>
+
+<script src="~/Scripts/Producto/JavaScript.js"></script>
