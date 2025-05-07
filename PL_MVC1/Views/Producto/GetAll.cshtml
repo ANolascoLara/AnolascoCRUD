@@ -6,8 +6,36 @@
 }
 
 <style>
+    .store-title, .add-button, .table th, .table td, .no-records {
+ opacity: 0;
+ transform: translateY(-20px);
+ animation: slideUp 0.5s ease-out forwards;
+}
+
+@@keyframes slideUp {
+ 0% { opacity: 0; transform: translateY(-20px); }
+ 60% { transform: translateY(5px); }
+ 100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Agrega retrasos si lo deseas */
+.add-button {
+ animation-delay: 0.2s;
+}
+
+.product-table {
+ animation-delay: 0.4s;
+}
+
+.table th, .table td {
+ animation-delay: 0.6s;
+}
+
+.no-records {
+ animation-delay: 0.2s;
+}
     body {
-        background-image: url('https://img.freepik.com/fotos-premium/wooden-table-in-forest-bokeh-background_863013-42547.jpg');
+        background-image: url('https://previews.123rf.com/images/romastudio/romastudio1603/romastudio160300223/54088692-fondo-de-los-alimentos-org%C3%A1nicos-studio-foto-de-diferentes-frutas-y-verduras-en-la-vieja-mesa-de.jpg');
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -224,7 +252,7 @@
                                         }
                                         else
                                         {
-                                            <img id="img" src="data:image/*;base64, @Convert.ToBase64String(producto.Imagen)" alt="Red dot" style="width:100%;" />
+                                            <img id="img" src="data:image/*;base64, @Convert.ToBase64String(producto.Imagen)" alt="Red dot" style="width:20%;" />
                                         }
                                     </td>
                                     <td>@producto.SubCategoria.Nombre</td>

@@ -3,7 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Net.Mail;
 using System.Web.Mvc;
+using System.IO;
+using System.Net.Mime;
+using System.Net;
+using System.Web.Configuration;
 
 namespace PL_MVC1.Controllers
 {
@@ -65,6 +70,8 @@ namespace PL_MVC1.Controllers
 
             return View(productosucursal);
         }
+
+
         [HttpPost]
         public JsonResult ActualizarStock(int IdProducto, int IdSucursal, int Stock)
         {
@@ -72,6 +79,7 @@ namespace PL_MVC1.Controllers
 
             if (result.Correct)
             {
+                Enviar();
                 return Json(new { Correct = true });
             }
             else
@@ -89,6 +97,87 @@ namespace PL_MVC1.Controllers
                 Correct = result.Correct,
                 ErrorMessage = result.Correct ? "Producto eliminado correctamente de la sucursal." : "Error al eliminar el producto: " + result.ErrorMessage
             });
+        }
+        [NonAction]
+        public ActionResult Enviar()
+        {
+            try
+
+            {
+                string correo = WebConfigurationManager.AppSettings["Correo"];
+
+                string password = WebConfigurationManager.AppSettings["Password"];
+
+                string htmlPath = Server.MapPath("~/Content/Correo/Productos.html");
+
+
+                string htmlBody;
+
+                using (StreamReader reader = new StreamReader(htmlPath))
+
+                {
+
+                    htmlBody = reader.ReadToEnd();
+                }
+
+                htmlBody = htmlBody.Replace("[Nombre del Usuario]", "Andrea");
+                htmlBody = htmlBody.Replace("[Número de Pedido]", "1");
+                htmlBody = htmlBody.Replace("[Fecha Estimada de Entrega]", "Lunes");
+                htmlBody = htmlBody.Replace("[Dirección de Entrega del Usuario]", "CDMX");
+
+                AlternateView avHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
+
+                string imagePath = Server.MapPath("~/Content/imagen/logo.jpg");
+
+                LinkedResource logo = new LinkedResource(imagePath, MediaTypeNames.Image.Jpeg);
+
+                logo.ContentId = "IMG_LOGO";
+
+                logo.TransferEncoding = TransferEncoding.Base64;
+
+                avHtml.LinkedResources.Add(logo);
+
+
+
+                MailMessage mensaje = new MailMessage
+
+                {
+                    From = new MailAddress(correo, "Jorge"),
+
+                    Subject = "Paquete en camino",
+
+                    IsBodyHtml = true
+
+                };
+                mensaje.To.Add("andylu.nolascol@gmail.com");
+
+                mensaje.AlternateViews.Add(avHtml);
+
+                
+                SmtpClient smtp = new SmtpClient("smtp.gmail.com")
+                {
+                    Port = 587,
+
+                    Credentials = new NetworkCredential(correo, password),
+
+                    EnableSsl = true
+
+                };
+
+                smtp.Send(mensaje);
+
+            }
+
+            catch (Exception ex)
+
+            {
+
+                Console.WriteLine("Error al enviar correo: " + ex.Message);
+
+            }
+
+            return View();
+
         }
     }
 }
